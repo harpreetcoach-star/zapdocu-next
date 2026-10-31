@@ -1,13 +1,28 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Initialize Stripe with your secret key (reads from environment variables)
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
+// Initialize Stripe lazily so build time doesn't throw if the key is absent
+let stripeInstance = null;
+function getStripe() {
+  if (!stripeInstance && process.env.STRIPE_SECRET_KEY) {
+    stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2023-10-16',
+    });
+  }
+  return stripeInstance;
+}
 
 export async function POST(request) {
   try {
+    const stripe = getStripe();
+
+    if (!stripe) {
+      return NextResponse.json(
+        { error: 'Stripe is not configured on this environment.' },
+        { status: 500 }
+      );
+    }
+
     const origin = request.headers.get('origin') || 'http://localhost:3000';
 
     // Create Stripe Checkout Session
