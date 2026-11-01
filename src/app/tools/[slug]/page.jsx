@@ -205,6 +205,12 @@ const toolMetadata = {
   }
 };
 
+export function generateStaticParams() {
+  return Object.keys(toolMetadata).map((slug) => ({
+    slug: slug,
+  }));
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const tool = toolMetadata[slug];
