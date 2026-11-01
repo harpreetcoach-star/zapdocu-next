@@ -59,7 +59,7 @@ export default function HomePage() {
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
 
         {/* Hero Section */}
-<div className="text-center max-w-4xl mx-auto px-4 py-12">
+<div className="text-center max-w-4xl mx-auto px-4 pt-4 pb-12">
   <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold mb-6 shadow-sm">
     <span>🔒</span> Zero File Uploads to External Servers • 100% Client-Side RAM
   </div>
