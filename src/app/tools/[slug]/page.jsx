@@ -222,15 +222,25 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const toolUrl = `https://zapdocu.com/tools/${slug}`;
+
   return {
     title: tool.title,
     description: tool.description,
+    alternates: {
+      canonical: toolUrl,
+    },
     openGraph: {
       title: tool.title,
       description: tool.description,
-      url: `https://zapdocu.com/tools/${slug}`,
+      url: toolUrl,
       siteName: 'ZapDocu',
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tool.title,
+      description: tool.description,
     },
   };
 }
@@ -243,60 +253,98 @@ export default async function ToolPage({ params }) {
     notFound();
   }
 
+  // Generate Google Schema Markup for Application + FAQs
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'SoftwareApplication',
+        'name': tool.heading,
+        'operatingSystem': 'All',
+        'applicationCategory': 'BrowserApplication',
+        'url': `https://zapdocu.com/tools/${slug}`,
+        'offers': {
+          '@type': 'Offer',
+          'price': '0',
+          'priceCurrency': 'USD',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        'mainEntity': tool.faqs.map((faq) => ({
+          '@type': 'Question',
+          'name': faq.q,
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': faq.a,
+          },
+        })),
+      },
+    ],
+  };
+
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Header Section */}
-        <div className="text-center space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            {tool.heading}
-          </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-            {tool.subheading}
-          </p>
-        </div>
+    <>
+      {/* Google Rich Snippets Schema Script */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        {/* Dynamic Tool Component Renderer */}
-        <ToolRenderer slug={slug} />
-
-        {/* Trust Badges Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-          <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
-            <h3 className="font-semibold text-emerald-400 text-sm">⚡ Zero Cloud Uploads</h3>
-            <p className="text-xs text-slate-400 mt-1">Files never leave your local device storage.</p>
+      <main className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto space-y-8">
+          
+          {/* Header Section */}
+          <div className="text-center space-y-3">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              {tool.heading}
+            </h1>
+            <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+              {tool.subheading}
+            </p>
           </div>
-          <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
-            <h3 className="font-semibold text-indigo-400 text-sm">🔒 100% Browser RAM</h3>
-            <p className="text-xs text-slate-400 mt-1">Processed securely using browser memory.</p>
-          </div>
-          <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
-            <h3 className="font-semibold text-cyan-400 text-sm">🚀 Instant Processing</h3>
-            <p className="text-xs text-slate-400 mt-1">No server wait times or file queues.</p>
-          </div>
-        </div>
 
-        {/* Bottom SEO Content & FAQs */}
-        <section className="bg-slate-900/30 border border-slate-800/50 rounded-2xl p-6 sm:p-8 space-y-6">
-          <h2 className="text-xl font-bold text-white">About This Tool & Privacy Guarantee</h2>
-          <p className="text-slate-300 text-sm leading-relaxed">
-            {tool.content}
-          </p>
+          {/* Dynamic Tool Component Renderer */}
+          <ToolRenderer slug={slug} />
 
-          <div className="space-y-4 pt-4 border-t border-slate-800">
-            <h3 className="font-semibold text-white text-sm">Frequently Asked Questions</h3>
-            <div className="space-y-4">
-              {tool.faqs.map((faq, index) => (
-                <div key={index} className="space-y-1 text-sm">
-                  <p className="text-slate-200 font-medium">{faq.q}</p>
-                  <p className="text-slate-400 text-xs pl-4">{faq.a}</p>
-                </div>
-              ))}
+          {/* Trust Badges Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
+              <h3 className="font-semibold text-emerald-400 text-sm">⚡ Zero Cloud Uploads</h3>
+              <p className="text-xs text-slate-400 mt-1">Files never leave your local device storage.</p>
+            </div>
+            <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
+              <h3 className="font-semibold text-indigo-400 text-sm">🔒 100% Browser RAM</h3>
+              <p className="text-xs text-slate-400 mt-1">Processed securely using browser memory.</p>
+            </div>
+            <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4">
+              <h3 className="font-semibold text-cyan-400 text-sm">🚀 Instant Processing</h3>
+              <p className="text-xs text-slate-400 mt-1">No server wait times or file queues.</p>
             </div>
           </div>
-        </section>
 
-      </div>
-    </main>
+          {/* Bottom SEO Content & FAQs */}
+          <section className="bg-slate-900/30 border border-slate-800/50 rounded-2xl p-6 sm:p-8 space-y-6">
+            <h2 className="text-xl font-bold text-white">About This Tool & Privacy Guarantee</h2>
+            <p className="text-slate-300 text-sm leading-relaxed">
+              {tool.content}
+            </p>
+
+            <div className="space-y-4 pt-4 border-t border-slate-800">
+              <h3 className="font-semibold text-white text-sm">Frequently Asked Questions</h3>
+              <div className="space-y-4">
+                {tool.faqs.map((faq, index) => (
+                  <div key={index} className="space-y-1 text-sm">
+                    <p className="text-slate-200 font-medium">{faq.q}</p>
+                    <p className="text-slate-400 text-xs pl-4">{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </>
   );
 }
