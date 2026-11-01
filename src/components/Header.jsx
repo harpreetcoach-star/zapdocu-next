@@ -11,7 +11,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2">
           {/* Make sure your official logo is saved as public/logo.png */}
           <Image 
-            src="/logo.png" 
+            src="/Logo.png" 
             alt="ZapDocu Logo" 
             width={36} 
             height={36} 
