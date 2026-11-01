@@ -4,14 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
-  },
-  "overrides": {
-    "@cloudflare/next-on-pages": {
-      "next": "$next"
-    }
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
