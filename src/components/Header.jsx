@@ -7,12 +7,14 @@ export default function Header() {
   return (
     <header className="bg-slate-950/80 backdrop-blur-sm border-b border-slate-800/80 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <img 
-            src="/Logo.png" 
-            alt="Logo" 
-            className="h-9 w-auto object-contain group-hover:scale-105 transition-transform" 
-          />
+        <Link href="/" className="flex flex-col items-start gap-2.5 group w-fit cursor-pointer">
+          <div className="flex items-center">
+            <img 
+              src="/Logo.png" 
+              alt="Logo" 
+              className="h-9 w-auto object-contain group-hover:scale-105 transition-transform" 
+            />
+          </div>
         </Link>
         
         <div className="flex items-center gap-4">
