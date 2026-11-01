@@ -4,16 +4,7 @@ import React from 'react';
 import { Check, Sparkles, Zap, Shield, Lock } from 'lucide-react';
 
 export default function PricingSection({ onSelectPlan }) {
-  // Direct Stripe Payment Link handler
-  const handleUpgrade = () => {
-    const stripePaymentUrl = 'https://buy.stripe.com/28E5kwfMC88Y4pqfba9bO00';
-    
-    if (stripePaymentUrl && stripePaymentUrl.includes('buy.stripe.com')) {
-      window.location.href = stripePaymentUrl; // Redirects user straight to your Stripe checkout page
-    } else {
-      alert('Stripe Payment Link is not configured yet.');
-    }
-  };
+  const stripePaymentUrl = 'https://buy.stripe.com/28E5kwfMC88Y4pqfba9bO00';
 
   return (
     <section id="pricing" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +31,15 @@ export default function PricingSection({ onSelectPlan }) {
             </ul>
           </div>
           <button 
-            onClick={() => onSelectPlan ? onSelectPlan('free') : (window.location.href = '/')}
+            onClick={() => {
+              if (onSelectPlan) onSelectPlan('free');
+              const toolsSection = document.getElementById('tools');
+              if (toolsSection) {
+                toolsSection.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.location.href = '/#tools';
+              }
+            }}
             className="mt-8 w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-xl transition-colors cursor-pointer"
           >
             Get Started Free
@@ -66,16 +65,17 @@ export default function PricingSection({ onSelectPlan }) {
             </ul>
           </div>
           <div>
-            <button 
+            {/* Using an anchor tag styled as a button to trigger native browser navigation without popup blocks */}
+            <a 
+              href={stripePaymentUrl}
               onClick={() => {
                 if (onSelectPlan) onSelectPlan('pro');
-                handleUpgrade();
               }}
-              className="mt-8 w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-medium py-2.5 rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              className="mt-8 w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-medium py-2.5 rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer no-underline block text-center"
             >
               <Sparkles className="w-4 h-4" />
               <span>Upgrade to Pro</span>
-            </button>
+            </a>
             <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
               <Lock className="w-3 h-3 text-emerald-400" />
               <span>Secure checkout via Stripe • Cancel anytime</span>
