@@ -168,6 +168,10 @@ export default function HomePage() {
         {/* Pricing Section */}
         <PricingSection onSelectPlan={(plan) => alert(`Selected plan: ${plan}`)} />
 
+{/* Monetization Ad Banner */}
+        <div className="max-w-4xl mx-auto mb-10">
+          <AdBanner slot="1234567890" label="Google AdSense Banner Slot" minHeight="80px" />
+        </div>
       </main>
 
     </div>
