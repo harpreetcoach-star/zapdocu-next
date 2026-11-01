@@ -57,19 +57,11 @@ export default function HomePage() {
       />
 
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        
-        {/* Trust Badge Banner */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-xs font-medium text-slate-300 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Zero File Uploads to External Servers • 100% Client-Side RAM</span>
-          </div>
-        </div>
 
         {/* Hero Section */}
 <div className="text-center max-w-4xl mx-auto px-4 py-12">
   <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold mb-6 shadow-sm">
-    <span>🔒</span> 100% Free • Zero File Uploads • 100% Client-Side RAM
+    <span>🔒</span> Zero File Uploads to External Servers • 100% Client-Side RAM
   </div>
   
   <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
