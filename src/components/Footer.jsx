@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { Zap } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -11,15 +11,15 @@ export default function Footer() {
         
         {/* Column 1: Brand & Privacy Guarantee */}
         <div className="space-y-4 md:col-span-1">
-          <Link href="/" className="flex flex-col items-start gap-2 group w-fit cursor-pointer">
-            <Image 
-              src="/logo.png" 
-              alt="ZapDocu Logo" 
-              width={220} 
-              height={70} 
-              className="h-12 w-auto object-contain transition-transform group-hover:scale-105" 
-              priority 
-            />
+          <Link href="/" className="flex flex-col items-start gap-2.5 group w-fit cursor-pointer">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                <Zap className="w-5 h-5 text-white fill-white" />
+              </div>
+              <span className="font-extrabold text-2xl tracking-tighter text-white">
+                Zap<span className="text-cyan-400">Docu</span>
+              </span>
+            </div>
             <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider shadow-sm">
               100% Client-Side
             </span>
