@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import PricingSection from '@/components/PricingSection';
 import AdBanner from '@/components/AdBanner';
-import ToolRenderer from '@/components/ToolRenderer'; // <-- Import your Tool Renderer here!
+import ToolRenderer from '@/components/ToolRenderer';
 import { 
   Sparkles, Layers, Minimize2, Image as ImageIcon, FileOutput, Scissors, Sliders,
   Move, FileText, FileSpreadsheet, Lock, Unlock, Hash, Type, RefreshCw
@@ -58,23 +58,19 @@ export default function HomePage() {
 
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
 
-        {/* Hero Section */}
-<div className="text-center max-w-4xl mx-auto px-4 pt-4 pb-12">
-  <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold mb-6 shadow-sm">
-    <span>🔒</span> Zero File Uploads to External Servers • 100% Client-Side RAM
-  </div>
-  
-  <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
-    Free Online PDF & Image Converter <br />
-    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">
-      Private & Lightning Fast
-    </span>
-  </h1>
-  
-  <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-    Merge PDF files, compress PDFs, convert documents and images instantly for free. No software installation required. Your files stay securely in your browser and are never uploaded to any cloud server.
-  </p>
-</div>
+        {/* Hero Section (Banner removed) */}
+        <div className="text-center max-w-4xl mx-auto px-4 pt-4 pb-12">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
+            Free Online PDF & Image Converter <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">
+              Private & Lightning Fast
+            </span>
+          </h1>
+          
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Merge PDF files, compress PDFs, convert documents and images instantly for free. No software installation required. Your files stay securely in your browser and are never uploaded to any cloud server.
+          </p>
+        </div>
 
         {/* Monetization Ad Banner */}
         <div className="max-w-4xl mx-auto mb-10">
@@ -93,7 +89,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* HERE IS THE FIX: We render the ToolRenderer dynamically instead of hardcoded upload boxes! */}
           <ToolRenderer activeTool={activeTool} toolData={currentToolData} />
         </div>
 
@@ -168,12 +163,11 @@ export default function HomePage() {
         {/* Pricing Section */}
         <PricingSection onSelectPlan={(plan) => alert(`Selected plan: ${plan}`)} />
 
-{/* Monetization Ad Banner */}
-        <div className="max-w-4xl mx-auto mb-10">
+        {/* Monetization Ad Banner */}
+        <div className="max-w-4xl mx-auto mb-10 mt-10">
           <AdBanner slot="1234567890" label="Google AdSense Banner Slot" minHeight="80px" />
         </div>
       </main>
-
     </div>
   );
 }
