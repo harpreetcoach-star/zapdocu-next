@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/Footer"; // Assuming you have your Footer component here
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,14 +18,44 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ZapDocu",
+    "operatingSystem": "All",
+    "applicationCategory": "BusinessApplication",
+    "browser": "Requires JavaScript. Requires HTML5.",
+    "url": "https://zapdocu.com",
+    "description": "ZapDocu is a fast, offline-first private PDF and image utility suite. Merge, split, compress, rotate, watermark PDFs, and convert formats locally in your browser.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "PDF Merging",
+      "PDF Splitting",
+      "PDF Compression",
+      "Image to PDF Conversion",
+      "Client-side local processing for privacy"
+    ]
+  };
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
-        {/* Global Header with your logo */}
-      
+        {/* Securely serialized JSON-LD to prevent any script-breaking characters */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+          }}
+        />
+
+        {/* Global Header placeholder */}
 
         {/* Main page views */}
         <main className="flex-grow">{children}</main>
