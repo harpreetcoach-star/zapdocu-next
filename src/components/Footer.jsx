@@ -93,13 +93,24 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar: Copyright & Legal Links */}
-      <div className="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <p>© 2026 ZapDocu.com • Powered by ZapDocu SecureClient™ Engine • Secured by Stripe & Cloudflare.</p>
+      <div className="max-w-7xl mx-auto pt-6 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-4 text-xs text-slate-400">
+        <p className="min-w-0 text-center lg:text-left leading-relaxed">
+          © 2026 ZapDocu.com • Powered by ZapDocu SecureClient™ Engine • Secured by Stripe &amp; Cloudflare • Engineered by{' '}
+          <a
+            href="https://universalstack.co.nz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Universal Stack | Website Design, Software Development & AI Solutions"
+            className="font-semibold text-cyan-400 underline underline-offset-4 hover:text-cyan-200 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400"
+          >
+            Universal Stack
+          </a>
+        </p>
         
-        <div className="flex items-center gap-6">
-          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-slate-300 transition-colors">Stripe Terms</Link>
-        </div>
+        <nav aria-label="Legal" className="flex shrink-0 flex-wrap items-center justify-center lg:justify-end gap-x-6 gap-y-2 leading-relaxed">
+          <Link href="/privacy" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Privacy Policy</Link>
+          <Link href="/terms" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Stripe Terms</Link>
+        </nav>
       </div>
     </footer>
   );
