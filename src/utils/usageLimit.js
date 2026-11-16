@@ -32,7 +32,7 @@ export function checkAndTrackUsage(newFileCount, isProUser = false) {
     return {
       allowed: false,
       remaining: remainingAllowed,
-      message: `You've used your 15 free files for today. You have ${remainingAllowed} file(s) remaining.\n\nUpgrade to Pro for unlimited files right now!`
+      message: `You've used your 50 free files for today. You have ${remainingAllowed} file(s) remaining.\n\nUpgrade to Pro for unlimited files right now!`
     };
   }
 

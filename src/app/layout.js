@@ -55,8 +55,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Global Header placeholder */}
-
         {/* Main page views */}
         <main className="flex-grow">{children}</main>
 

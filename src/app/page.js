@@ -87,7 +87,7 @@ export default function HomePage() {
         </div>
 
         {/* All 18 Utility Tools Grid Section */}
-        <div className="max-w-6xl mx-auto mb-20">
+        <div id="tools" className="max-w-6xl mx-auto mb-20 scroll-mt-24">
           <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
             <div>
               <h2 className="text-2xl font-bold text-white">All 18 Utility Tools</h2>

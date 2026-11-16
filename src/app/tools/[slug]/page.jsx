@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import ToolRenderer from '@/components/ToolRenderer';
+import Header from '@/components/Header';
 
 const toolMetadata = {
   'merge-pdf': {
@@ -285,6 +286,7 @@ export default async function ToolPage({ params }) {
 
   return (
     <>
+      <Header />
       {/* Google Rich Snippets Schema Script */}
       <script
         type="application/ld+json"
