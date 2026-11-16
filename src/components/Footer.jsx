@@ -93,9 +93,22 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar: Copyright & Legal Links */}
-      <div className="max-w-7xl mx-auto pt-6 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-4 text-xs text-slate-400">
-        <p className="min-w-0 text-center lg:text-left leading-relaxed">
-          © 2026 ZapDocu.com • Powered by ZapDocu SecureClient™ Engine • Secured by Stripe &amp; Cloudflare • Engineered by{' '}
+      <div className="max-w-7xl mx-auto pt-6 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-x-12 gap-y-6 text-xs text-slate-400">
+        <div className="min-w-0 space-y-2 text-center lg:text-left leading-relaxed">
+          <p className="font-medium text-slate-300">© 2026 ZapDocu.com</p>
+          <div className="flex flex-wrap justify-center lg:justify-start gap-x-4 gap-y-1">
+            <span>Powered by ZapDocu SecureClient™ Engine</span>
+            <span>Secured by Stripe &amp; Cloudflare</span>
+          </div>
+        </div>
+
+        <div className="flex shrink-0 flex-col items-center lg:items-end gap-2 leading-relaxed">
+          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center lg:justify-end gap-x-6 gap-y-2">
+            <Link href="/privacy" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Privacy Policy</Link>
+            <Link href="/terms" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Terms</Link>
+          </nav>
+          <p className="whitespace-nowrap">
+            Engineered by{' '}
           <a
             href="https://universalstack.co.nz/"
             target="_blank"
@@ -105,12 +118,8 @@ export default function Footer() {
           >
             Universal Stack
           </a>
-        </p>
-        
-        <nav aria-label="Legal" className="flex shrink-0 flex-wrap items-center justify-center lg:justify-end gap-x-6 gap-y-2 leading-relaxed">
-          <Link href="/privacy" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Privacy Policy</Link>
-          <Link href="/terms" className="whitespace-nowrap hover:text-cyan-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">Stripe Terms</Link>
-        </nav>
+          </p>
+        </div>
       </div>
     </footer>
   );
