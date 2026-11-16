@@ -7,10 +7,10 @@ import { Zap } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="bg-slate-950 border-t border-slate-800/80 text-slate-400 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-slate-800/50">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-x-8 gap-y-10 pb-12 border-b border-slate-800/50">
         
         {/* Column 1: Brand & Privacy Guarantee */}
-        <div className="space-y-4 md:col-span-1">
+        <div className="space-y-4 sm:col-span-2 xl:col-span-1">
           <Link href="/" className="flex flex-col items-start gap-2.5 group w-fit cursor-pointer">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
@@ -64,7 +64,17 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Column 4: Connect & Socials */}
+        {/* Column 4: Resources */}
+        <nav aria-labelledby="footer-resources" className="space-y-3">
+          <h3 id="footer-resources" className="text-white font-semibold text-sm tracking-wider uppercase">Resources</h3>
+          <ul className="space-y-2 text-xs">
+            <li><Link href="/blog" className="hover:text-cyan-300 focus-visible:text-cyan-300 transition-colors">Blog / Articles</Link></li>
+            <li><Link href="/guides" className="hover:text-cyan-300 focus-visible:text-cyan-300 transition-colors">PDF Guides</Link></li>
+            <li><Link href="/faq" className="hover:text-cyan-300 focus-visible:text-cyan-300 transition-colors">FAQ</Link></li>
+          </ul>
+        </nav>
+
+        {/* Column 5: Connect & Socials */}
         <div className="space-y-3">
           <h3 className="text-white font-semibold text-sm tracking-wider uppercase">Connect</h3>
           <div className="flex items-center gap-3 text-slate-400 pt-1">
