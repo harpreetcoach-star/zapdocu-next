@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RefreshCw, Sparkles, Image as ImageIcon, X, Download, FileSpreadsheet } from 'lucide-react';
+import { RefreshCw, Sparkles, Image as ImageIcon, X, Download } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function ImageConverterTool({ mode = 'webp' }) {
+  const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [targetFormat, setTargetFormat] = useState(mode === 'webp' ? 'image/png' : 'image/jpeg');
@@ -58,7 +60,7 @@ export default function ImageConverterTool({ mode = 'webp' }) {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

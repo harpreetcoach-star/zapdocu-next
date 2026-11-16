@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { RefreshCw, Sparkles, Sliders, Download, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { compressPDF } from '@/utils/pdfEngine';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function CompressPdfTool() {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [qualityLevel, setQualityLevel] = useState('recommended'); // 'low', 'recommended', 'extreme'
   const [isProcessing, setIsProcessing] = useState(false);
@@ -33,7 +35,7 @@ export default function CompressPdfTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

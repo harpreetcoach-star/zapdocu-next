@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RefreshCw, CheckCircle2, Sparkles, Image as ImageIcon, FileText, X, Download } from 'lucide-react';
+import { RefreshCw, Sparkles, Image as ImageIcon, X, Download } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { convertImagesToPDF } from '@/utils/pdfEngine';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function JpgToPdfTool() {
+  const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -46,7 +48,7 @@ export default function JpgToPdfTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

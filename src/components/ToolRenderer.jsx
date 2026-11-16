@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import MergePdfTool from '@/tools/MergePdfTool';
 import SplitPdfTool from '@/tools/SplitPdfTool';
 import WatermarkTool from '@/tools/WatermarkTool';
@@ -25,25 +26,25 @@ export default function ToolRenderer({ activeTool, toolData, slug }) {
   const rawId = activeTool || slug || '';
   const toolId = rawId.toLowerCase();
 
-  const [mounted, setMounted] = useState(false);
-  const [usage, setUsage] = useState({ used: 0, remaining: 15 });
+  const [usage, setUsage] = useState({ used: 0, remaining: 50 });
 
   useEffect(() => {
-    setMounted(true);
-    setUsage(getRemainingUsage());
-
-    // Listen for real-time usage updates when tools process files
-    const handleUpdate = () => {
-      setUsage(getRemainingUsage());
-    };
+    let active = true;
+    const handleUpdate = () => setUsage(getRemainingUsage());
+    Promise.resolve().then(() => {
+      if (active) handleUpdate();
+    });
     window.addEventListener('usageUpdated', handleUpdate);
-    return () => window.removeEventListener('usageUpdated', handleUpdate);
+    return () => {
+      active = false;
+      window.removeEventListener('usageUpdated', handleUpdate);
+    };
   }, []);
 
   let toolComponent;
 
   if (toolId.includes('merge')) toolComponent = <MergePdfTool />;
-  else if (toolId.includes('split') || toolId.includes('extract-pages')) toolComponent = <SplitPdfTool />;
+  else if (toolId.includes('split')) toolComponent = <SplitPdfTool />;
   else if (toolId.includes('rearrange')) toolComponent = <RearrangeTool />;
   else if (toolId.includes('rotate')) toolComponent = <RotateTool />;
   else if (toolId.includes('extract')) toolComponent = <ExtractTool />;
@@ -66,16 +67,14 @@ export default function ToolRenderer({ activeTool, toolData, slug }) {
     <div className="space-y-4 pb-8">
       {toolComponent}
 
-      {mounted && (
-        <div className="text-center mt-6 space-y-1">
-          <p className="text-xs text-indigo-400 font-medium">
-            ⚡ Free Tier: <span className="font-bold">{usage.remaining}</span> of 50 free files remaining today
-          </p>
-          <p className="text-xs text-slate-500">
-            Need unlimited batching? <a href="/#pricing" className="text-indigo-400 underline">Upgrade to Pro ($4.99/mo)</a>
-          </p>
-        </div>
-      )}
+      <div className="text-center mt-6 space-y-1">
+        <p className="text-xs text-indigo-400 font-medium">
+          ⚡ Free Tier: <span className="font-bold">{usage.remaining}</span> of 50 free files remaining today
+        </p>
+        <p className="text-xs text-slate-500">
+          Need unlimited batching? <Link href="/#pricing" className="text-indigo-400 underline">Upgrade to Pro ($4.99/mo)</Link>
+        </p>
+      </div>
     </div>
   );
 }

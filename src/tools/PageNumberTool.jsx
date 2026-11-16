@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, CheckCircle2, Sparkles, FileText, Hash, Download } from 'lucide-react';
+import { RefreshCw, Sparkles, FileText, Hash, Download } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { addPageNumbersToPDF } from '@/utils/pdfEngine';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
+import { loadPdfJs } from '@/utils/pdfJs';
 
 export default function PageNumberTool() {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [pages, setPages] = useState([]);
   const [position, setPosition] = useState('bottom-center');
@@ -15,22 +18,14 @@ export default function PageNumberTool() {
   const [pdfjsLib, setPdfjsLib] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (window.pdfjsLib) {
-        setPdfjsLib(window.pdfjsLib);
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.pdfjsLib) {
-          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-          setPdfjsLib(window.pdfjsLib);
-        }
-      };
-      document.body.appendChild(script);
-    }
+    let cancelled = false;
+    loadPdfJs().then((library) => {
+      if (!cancelled) setPdfjsLib(library);
+    }).catch((error) => {
+      console.error(error);
+      if (!cancelled) setStatusMessage('Unable to load PDF processing tools. Please refresh and try again.');
+    });
+    return () => { cancelled = true; };
   }, []);
 
   const handleFileChange = async (e) => {
@@ -92,7 +87,7 @@ export default function PageNumberTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }
@@ -122,7 +117,7 @@ export default function PageNumberTool() {
         <h2 className="text-xl font-bold text-white flex items-center justify-center gap-2">
           <Hash className="w-5 h-5 text-indigo-400" /> Add Page Numbers
         </h2>
-        <p className="text-xs text-slate-400">Stamp clean "Page X of Y" indicators onto your documents.</p>
+        <p className="text-xs text-slate-400">Stamp clean &quot;Page X of Y&quot; indicators onto your documents.</p>
       </div>
 
       <div className="border-2 border-dashed border-slate-700 hover:border-indigo-500 transition-colors rounded-xl p-6 text-center flex flex-col items-center justify-center cursor-pointer relative bg-slate-950/40">

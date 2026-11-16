@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Check, Sparkles, Zap, Shield, Lock } from 'lucide-react';
+import { Check, Sparkles, Lock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function PricingSection({ onSelectPlan }) {
+  const router = useRouter();
   const stripePaymentUrl = 'https://buy.stripe.com/28E5kwfMC88Y4pqfba9bO00';
 
   return (
@@ -27,7 +29,6 @@ export default function PricingSection({ onSelectPlan }) {
             <ul className="space-y-3 text-sm text-slate-300">
               <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Standard PDF & Image Tools</li>
               <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> 100% Client-Side Privacy</li>
-              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Ad-supported experience</li>
             </ul>
           </div>
           <button 
@@ -37,7 +38,7 @@ export default function PricingSection({ onSelectPlan }) {
               if (toolsSection) {
                 toolsSection.scrollIntoView({ behavior: 'smooth' });
               } else {
-                window.location.href = '/#tools';
+                router.push('/#tools');
               }
             }}
             className="mt-8 w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-xl transition-colors cursor-pointer"
@@ -52,13 +53,12 @@ export default function PricingSection({ onSelectPlan }) {
           <div>
             <div className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 mb-4 border border-indigo-500/30">Pro Pass</div>
             <h3 className="text-2xl font-bold text-white">ZapDocu Pro</h3>
-            <p className="text-slate-400 text-sm mt-2">Unlimited power-tools with zero ads and advanced batch processing.</p>
+            <p className="text-slate-400 text-sm mt-2">Advanced tools for efficient document workflows.</p>
             <div className="my-6">
               <span className="text-4xl font-extrabold text-white">$4.99</span>
               <span className="text-slate-400 ml-2">/ month</span>
             </div>
             <ul className="space-y-3 text-sm text-slate-300">
-              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Zero Advertisements</li>
               <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Batch Processing & Conversion</li>
               <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Priority In-Browser Rendering</li>
               <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Unlimited File Sizes</li>

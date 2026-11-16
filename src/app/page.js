@@ -3,10 +3,9 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import PricingSection from '@/components/PricingSection';
-import AdBanner from '@/components/AdBanner';
 import ToolRenderer from '@/components/ToolRenderer';
 import { 
-  Sparkles, Layers, Minimize2, Image as ImageIcon, FileOutput, Scissors, Sliders,
+  Layers, Minimize2, Image as ImageIcon, FileOutput, Scissors, Sliders,
   Move, FileText, FileSpreadsheet, Lock, Unlock, Hash, Type, RefreshCw
 } from 'lucide-react';
 
@@ -70,11 +69,6 @@ export default function HomePage() {
           <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Merge PDF files, compress PDFs, convert documents and images instantly for free. No software installation required. Your files stay securely in your browser and are never uploaded to any cloud server.
           </p>
-        </div>
-
-        {/* Monetization Ad Banner */}
-        <div className="max-w-4xl mx-auto mb-10">
-          <AdBanner slot="1234567890" label="Google AdSense Banner Slot" minHeight="80px" />
         </div>
 
         {/* Active Tool Workspace Card */}
@@ -163,10 +157,6 @@ export default function HomePage() {
         {/* Pricing Section */}
         <PricingSection onSelectPlan={(plan) => alert(`Selected plan: ${plan}`)} />
 
-        {/* Monetization Ad Banner */}
-        <div className="max-w-4xl mx-auto mb-10 mt-10">
-          <AdBanner slot="1234567890" label="Google AdSense Banner Slot" minHeight="80px" />
-        </div>
       </main>
     </div>
   );

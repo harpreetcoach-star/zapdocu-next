@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Upload, Type, CheckCircle2, RefreshCw, X, FileText } from 'lucide-react';
+import { Type, CheckCircle2, RefreshCw, X, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { watermarkPDF } from '@/utils/pdfEngine';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function WatermarkTool() {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [watermarkText, setWatermarkText] = useState('CONFIDENTIAL');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -29,7 +31,7 @@ export default function WatermarkTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

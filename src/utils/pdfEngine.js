@@ -1,5 +1,6 @@
-import { PDFDocument, PDFName, degrees, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, degrees, rgb, StandardFonts } from 'pdf-lib';
 import * as XLSX from 'xlsx';
+import { loadPdfJs } from '@/utils/pdfJs';
 
 /**
  * Merge multiple PDF files into a single PDF entirely in browser RAM
@@ -134,7 +135,7 @@ export async function addPageNumbersToPDF(file, position = 'bottom-center') {
   const font = await pdfDoc.embedStandardFont(StandardFonts.Helvetica);
 
   pages.forEach((page, index) => {
-    const { width, height } = page.getSize();
+    const { width } = page.getSize();
     const text = `Page ${index + 1} of ${totalPages}`;
     const textSize = 10;
     const textWidth = font.widthOfTextAtSize(text, textSize);
@@ -243,10 +244,7 @@ export async function compressPDF(file, qualityLevel = 'recommended') {
     scale = 0.70;
   }
 
-  const pdfjsLib = await import('pdfjs-dist/build/pdf');
-  
-  // Point worker directly to standard jsDelivr CDN which never blocks version 3.11.174
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+  const pdfjsLib = await loadPdfJs();
 
   const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
   const pdfDoc = await loadingTask.promise;
@@ -321,12 +319,8 @@ export async function extractPagesFromPDF(file, pageIndices) {
 export async function convertPdfToWord(file) {
   const arrayBuffer = await file.arrayBuffer();
   
-  // We use pdfjsLib loaded globally in the window
-  if (!window.pdfjsLib) {
-    throw new Error('PDF.js engine not loaded yet.');
-  }
-
-  const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+  const pdfjsLib = await loadPdfJs();
+  const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
   const pdf = await loadingTask.promise;
   let fullText = '';
 
@@ -350,7 +344,7 @@ export async function convertWordToPdf(file) {
   const pdfDoc = await PDFDocument.create();
   let page = pdfDoc.addPage([595.28, 841.89]); // A4 standard size
   
-  const { width, height } = page.getSize();
+  const { height } = page.getSize();
   const fontSize = 11;
   const margin = 50;
   let y = height - margin;
@@ -396,7 +390,7 @@ export async function convertExcelToPdf(file) {
   const pdfDoc = await PDFDocument.create();
   let page = pdfDoc.addPage([841.89, 595.28]); // Landscape for wide tables
   
-  const { width, height } = page.getSize();
+  const { height } = page.getSize();
   const fontSize = 8;
   const margin = 40;
   let y = height - margin;

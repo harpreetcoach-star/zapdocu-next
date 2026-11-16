@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { RefreshCw, Trash2, CheckCircle2, Sparkles, Sliders, ArrowLeft, ArrowRight, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { PDFDocument } from 'pdf-lib';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
+import { loadPdfJs } from '@/utils/pdfJs';
 
 export default function RearrangeTool() {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [pages, setPages] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -14,22 +17,14 @@ export default function RearrangeTool() {
   const [pdfjsLib, setPdfjsLib] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (window.pdfjsLib) {
-        setPdfjsLib(window.pdfjsLib);
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.pdfjsLib) {
-          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-          setPdfjsLib(window.pdfjsLib);
-        }
-      };
-      document.body.appendChild(script);
-    }
+    let cancelled = false;
+    loadPdfJs().then((library) => {
+      if (!cancelled) setPdfjsLib(library);
+    }).catch((error) => {
+      console.error(error);
+      if (!cancelled) setStatusMessage('Unable to load PDF processing tools. Please refresh and try again.');
+    });
+    return () => { cancelled = true; };
   }, []);
 
   const handleFileChange = async (e) => {
@@ -119,7 +114,7 @@ export default function RearrangeTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

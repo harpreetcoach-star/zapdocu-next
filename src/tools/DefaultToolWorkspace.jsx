@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { Upload, Sparkles, CheckCircle2, RefreshCw } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { rotatePDF, watermarkPDF } from '@/utils/pdfEngine';
 import FilePreviewCard from '@/tools/FilePreviewCard';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function DefaultToolWorkspace({ toolData, activeTool }) {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState(null);
@@ -28,7 +30,7 @@ export default function DefaultToolWorkspace({ toolData, activeTool }) {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

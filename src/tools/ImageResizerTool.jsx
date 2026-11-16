@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RefreshCw, CheckCircle2, Sparkles, Image as ImageIcon, X, Download, Sliders } from 'lucide-react';
+import { RefreshCw, Sparkles, Image as ImageIcon, X, Download, Sliders } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function ImageResizerTool() {
+  const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [resizeMode, setResizeMode] = useState('percentage'); // 'percentage' or 'dimensions'
@@ -61,7 +63,7 @@ export default function ImageResizerTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }

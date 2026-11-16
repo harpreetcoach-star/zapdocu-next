@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { RefreshCw, Sparkles, FileText, FileSpreadsheet, Download } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { convertWordToPdf } from '@/utils/pdfEngine';
 import { checkAndTrackUsage } from '@/utils/usageLimit';
 
 export default function WordToPdfTool() {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState(null);
@@ -31,7 +33,7 @@ export default function WordToPdfTool() {
     if (!usageCheck.allowed) {
       const upgradeNow = window.confirm(`${usageCheck.message}\n\nWould you like to upgrade to ZapDocu Pro now?`);
       if (upgradeNow) {
-        window.location.href = '/#pricing';
+        router.push('/#pricing');
       }
       return;
     }
