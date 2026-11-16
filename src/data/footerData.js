@@ -39,6 +39,7 @@ export const footerColumns = [
 ];
 
 export const legalLinks = [
+  { label: 'Manage Subscription', href: '/manage-subscription' },
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms', href: '/terms' },
 ];
