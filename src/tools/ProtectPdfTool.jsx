@@ -20,6 +20,12 @@ export default function ProtectPdfTool() {
   const [pdfjsLib, setPdfjsLib] = useState(null);
 
   useEffect(() => {
+    return () => {
+      if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+    };
+  }, [downloadUrl]);
+
+  useEffect(() => {
     let cancelled = false;
     loadPdfJs().then((library) => {
       if (!cancelled) setPdfjsLib(library);
@@ -40,6 +46,7 @@ export default function ProtectPdfTool() {
       const file = e.target.files[0];
       setSelectedFile(file);
       setDownloadUrl(null);
+      setPages([]);
       setStatusMessage('Rendering previews...');
       setIsProcessing(true);
 
@@ -75,6 +82,7 @@ export default function ProtectPdfTool() {
   };
 
   const handleProcess = async () => {
+    setDownloadUrl(null);
     if (!selectedFile) {
       setStatusMessage('Please select a PDF file first.');
       return;
@@ -111,7 +119,7 @@ export default function ProtectPdfTool() {
       setStatusMessage('Success! PDF successfully encrypted.');
     } catch (err) {
       console.error(err);
-      setStatusMessage('Error encrypting PDF.');
+      setStatusMessage(err.message || 'Error encrypting PDF. Please try another file.');
     } finally {
       setIsProcessing(false);
     }
@@ -127,7 +135,7 @@ export default function ProtectPdfTool() {
       </div>
 
       <div className="border-2 border-dashed border-slate-700 hover:border-indigo-500 transition-colors rounded-xl p-6 text-center flex flex-col items-center justify-center cursor-pointer relative bg-slate-950/40">
-        <input type="file" accept=".pdf" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+        <input type="file" accept=".pdf" aria-label="PDF to protect" disabled={isProcessing} onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
         <div className="w-10 h-10 rounded-full bg-indigo-600/20 flex items-center justify-center text-indigo-400 mb-2">
           <FileText className="w-5 h-5" />
         </div>
@@ -139,17 +147,24 @@ export default function ProtectPdfTool() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950/60 p-4 border border-slate-800 rounded-xl">
             <div className="space-y-2 relative">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Set Password</label>
+              <label htmlFor="protect-password" className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Set Password</label>
               <div className="relative">
                 <input 
+                  id="protect-password"
+                  disabled={isProcessing}
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setDownloadUrl(null);
+                    setStatusMessage('');
+                  }}
                   placeholder="Enter secure password"
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 pr-10"
                 />
                 <button 
                   type="button" 
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3.5 text-slate-400 hover:text-white"
                 >
@@ -159,11 +174,17 @@ export default function ProtectPdfTool() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Confirm Password</label>
+              <label htmlFor="protect-confirm-password" className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Confirm Password</label>
               <input 
+                id="protect-confirm-password"
+                disabled={isProcessing}
                 type={showPassword ? 'text' : 'password'}
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setDownloadUrl(null);
+                  setStatusMessage('');
+                }}
                 placeholder="Confirm password"
                 className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"
               />

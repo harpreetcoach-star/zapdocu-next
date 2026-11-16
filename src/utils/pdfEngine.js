@@ -200,27 +200,7 @@ export async function convertImagesToPDF(imageFiles) {
 /**
  * Encrypt and protect a PDF document with a password
  */
-export async function protectPDF(file, password) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-
-  // Force standard encryption flags on save
-  const pdfBytes = await pdfDoc.save({
-    userPassword: password,
-    ownerPassword: password,
-    permissions: {
-      printing: 'none',
-      modifying: false,
-      copying: false,
-      annotating: false,
-      fillingForms: false,
-      contentAccessibility: false,
-      documentAssembly: false,
-    },
-  });
-
-  return new Blob([pdfBytes], { type: 'application/pdf' });
-}
+export { protectPDF } from './pdfProtection.js';
 
 /**
  * Real client-side PDF compression using pdf.js browser canvas rendering

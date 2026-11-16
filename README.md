@@ -1,5 +1,24 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## PDF password protection
+
+Protect PDF uses the bundled [`@pdfsmaller/pdf-encrypt`](https://github.com/smither777/pdf-encrypt) library to apply AES-256 standard PDF encryption (revision 6). Encryption runs locally through Web Crypto, with no document or password uploads. Production must use HTTPS; localhost also supports Web Crypto. `output: 'export'` remains enabled, and no API route or server is needed.
+
+The user's password is required to open the downloaded PDF. A random owner password declares the existing print/edit/copy restrictions; reader permissions are advisory. Already-encrypted inputs are rejected rather than encrypted a second time. Empty/invisible passwords and passwords exceeding 127 UTF-8 bytes after PDF password normalization are rejected. Errors never return an unencrypted fallback.
+
+Run the regression checks with Node 22.13+ (tested with Node 24):
+
+```bash
+npm run test:pdf-protection
+npm run build
+npm run test:pdf-protection:browser
+npm run lint
+```
+
+The browser test uses installed Chrome on Windows by default. Set `CHROME_PATH` to its executable on another system. It serves `out/` locally and checks previews, encryption, downloads, failure states, and password enforcement in both PDF.js and Chrome's native PDFium viewer. Preview loading uses the existing PDF.js CDN and needs internet access. PDF.js and Playwright Core are development dependencies only.
+
+For manual reader compatibility checks, download a protected PDF, open it in Adobe Acrobat and macOS Preview, verify that a missing/wrong password cannot open it, and verify that the correct password reveals the original pages and form contents. Those applications are not exercised by the automated tests.
+
 ## Getting Started
 
 First, run the development server:
