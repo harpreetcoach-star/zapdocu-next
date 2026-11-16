@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import ToolRenderer from '@/components/ToolRenderer';
-import Header from '@/components/Header';
 
 const toolMetadata = {
   'merge-pdf': {
@@ -286,14 +285,13 @@ export default async function ToolPage({ params }) {
 
   return (
     <>
-      <Header />
       {/* Google Rich Snippets Schema Script */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-8">
           
           {/* Header Section */}
@@ -346,7 +344,7 @@ export default async function ToolPage({ params }) {
           </section>
 
         </div>
-      </main>
+      </section>
     </>
   );
 }

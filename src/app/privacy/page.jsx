@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 
 export const metadata = {
   title: 'Privacy Policy | ZapDocu',
@@ -8,8 +7,7 @@ export const metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <Header />
-      <main className="min-h-screen bg-slate-950 px-4 py-16 text-slate-100 sm:px-6 lg:px-8">
+      <section className="min-h-screen bg-slate-950 px-4 py-16 text-slate-100 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl space-y-6">
           <h1 className="text-3xl font-extrabold text-white">Privacy Policy</h1>
           <p className="text-sm text-slate-400">Last updated: October 2026</p>
@@ -31,7 +29,7 @@ export default function PrivacyPage() {
             </p>
           </section>
         </div>
-      </main>
+      </section>
     </>
   );
 }

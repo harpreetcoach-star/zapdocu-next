@@ -1,9 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Zap } from 'lucide-react';
 
 export default function Header() {
+  const pathname = usePathname();
+  // The homepage has its own navigation with tool-selection callbacks.
+  if (pathname === '/') return null;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
+    <header className="sticky top-0 z-50 shrink-0 border-b border-slate-800 bg-slate-950">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
